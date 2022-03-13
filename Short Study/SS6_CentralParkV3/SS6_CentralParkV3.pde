@@ -84,6 +84,7 @@ void draw(){
          textDisplay(255,54,3);       
       }
       
+      //using mousePressed event to pop up texts randomly
       fill(255);
       textSize(42);
       text(text2[textIndex],110,height/2);
