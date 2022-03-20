@@ -17,7 +17,7 @@ String [] text2={"Try press the mouse","Beautiful place to go","Hello","Welcome"
 PFont font;
 float a = 1.5;  //speed factor
 
-int timer= 600; 
+int timer= 500; 
 int currentTime=0; 
 int savedTime=0; 
 
