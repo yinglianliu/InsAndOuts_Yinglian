@@ -173,8 +173,8 @@ void preShow(){
 
 ////////////////////////////Define endShow///////////////////////////////////
 void endShow(){
-     tint(127);
-     image(bg,0,0,1200,1200);
+
+     background(bg);
      textAlign(CENTER);
      textSize(52);
      fill(255);
@@ -209,7 +209,7 @@ void spring(){
           fill(rc);
           rect(width/2,height/2,width-w,width-h);
           title();
-         //image(icon[0],random(mouseX),random(mouseY),40,40);
+
          imageDisplay(0,100,100,1000,1000);
          iconSpin(0,350,150,70,70);
          textDisplay(255,54,0);
@@ -284,7 +284,6 @@ void title(){
 
 void imageDisplay(int i,float x, float y, int imageWidth,int imageHeight){
          imageMode(CORNER);
-         tint(255);
          image(image[i],x,y,imageWidth,imageHeight);   
 }
 
