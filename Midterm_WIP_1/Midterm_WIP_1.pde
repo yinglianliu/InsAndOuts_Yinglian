@@ -11,6 +11,7 @@ int h=50;
 
 PImage [] image=new PImage[4];
 PImage [] icon=new PImage[4];
+PImage bg;
 String [] text={"Spring","Summer","Fall","Winter"};
 
 PFont font;
@@ -26,6 +27,11 @@ int textIndex=0;
 float bc=0;
 float rc=255;
 
+//initialize pattern color is white
+float r=255;
+float g=255;
+float b= 255;
+
 void setup(){
     size(1200,1200);
     background(255);
@@ -38,7 +44,7 @@ void setup(){
     image[i] = loadImage("image"+ i +".jpg");
     icon[i] = loadImage("icon"+ i + ".png");
   }
-    
+   bg =loadImage("bg.jpg");
   frameRate(5);    // lower flicker rate
   smooth();
 }
@@ -57,6 +63,18 @@ void draw(){
       }else if (scene==5){
         endShow();
       }
+
+}
+
+void mousePressed(){
+      r= (random(255));
+      g= (random(255));
+      b= (random(255));
+
+      println("r: "+ r);
+      println("g: "+ g);
+      println("b: "+ b);
+      println("mousepressed");
 
 }
 
@@ -155,10 +173,11 @@ void preShow(){
 
 ////////////////////////////Define endShow///////////////////////////////////
 void endShow(){
-     background(255);
+     tint(127);
+     image(bg,0,0,1200,1200);
      textAlign(CENTER);
      textSize(52);
-     fill(0);
+     fill(255);
      text("Thank you for your participation!",width/2, height/2-100);
      
      rectMode(CENTER);
@@ -168,12 +187,12 @@ void endShow(){
      textSize(32);
      text("Hope you have a wondful tour in Centrol Park!",width/2, height/2-20);
 
-     fill(#97EA24);
-     rect(width/2,1100,400,50);
+     //fill(#97EA24);
+     //rect(width/2,1100,400,50);
      fill(255);
      textSize(24);
-     text("Press the NUMBER KEY to watch again.", width/2, 1108);
-
+     text("Press the NUMBER KEY to watch again.", width/2+50, 1108);
+     rect(width/2+50,1140,550,50); 
      textHint();
      
 }
@@ -190,9 +209,9 @@ void spring(){
           fill(rc);
           rect(width/2,height/2,width-w,width-h);
           title();
-         image(icon[0],random(mouseX),random(mouseY),40,40);
+         //image(icon[0],random(mouseX),random(mouseY),40,40);
          imageDisplay(0,100,100,1000,1000);
-         //iconSpin(0,350,150,70,70);
+         iconSpin(0,350,150,70,70);
          textDisplay(255,54,0);
          println("X: "+ mouseX,"Y: "+mouseY);
          textHint();
@@ -209,9 +228,10 @@ void summer(){
           rect(width/2,height/2,width-w,width-h);
           title();
          imageDisplay(1,100,100,1000,1000);
-         iconSpin(1,350,150,70,70);
+         iconSpin(1,1000,170,80,80);
          textDisplay(255,54,1);
          textHint();
+         
 }
 
 void fall(){
@@ -226,6 +246,7 @@ void fall(){
           imageDisplay(2,100,100,1000,1000);
           iconSpin(2,350,150,80,80);
           textDisplay(255,54,2);
+          pattern(1.5,255,255,127); 
           textHint();
 }
 
@@ -263,6 +284,7 @@ void title(){
 
 void imageDisplay(int i,float x, float y, int imageWidth,int imageHeight){
          imageMode(CORNER);
+         tint(255);
          image(image[i],x,y,imageWidth,imageHeight);   
 }
 
@@ -279,6 +301,7 @@ void iconSpin(int i,float x, float y,int imageWidth,int imageHeight){
           pushMatrix();
           translate(x,y);
           rotate(spinSpeed(2,-15));
+          tint(255);
           image(icon[i],0,0,imageWidth,imageHeight);
           popMatrix();
 
@@ -301,4 +324,18 @@ void textHint(){
      text("<4>-Winter",710,1150);
      text("<Enter>-End",810,1150);
 
+}
+
+void pattern(float sw, float c, float st, float ft){  
+  //draw the pattern,random color and transparency
+      for(int i=width/8; i<=width/8*7; i+=100){
+          for(int j=width/8; j<=width/8*7; j+=100){ 
+              rectMode(CENTER);
+              strokeWeight(sw);
+              stroke(c,random(st));
+              //noStroke();
+              fill(r,g,b,random(ft));
+              rect(i,j,100,100); 
+           }
+      }
 }
