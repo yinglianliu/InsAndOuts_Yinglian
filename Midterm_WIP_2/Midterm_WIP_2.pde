@@ -4,7 +4,7 @@
 2- modify preShow1 and preShow2;
 3- add sound files;
 4- Using arrays to store 4 images for each season, click mouse to randomly select
-
+5- Left-click to switch pictures, right-click to display and switch filters
 */
 
 
@@ -37,12 +37,12 @@ PImage [] imgSpring=new PImage[4];
 PImage [] imgSummer=new PImage[4];
 PImage [] imgFall=new PImage[4];
 PImage [] imgWinter=new PImage[4];
-
 PImage [] icon=new PImage[4];
 PImage bg1;
 PImage bg2;
 PImage soccerball;
 PImage football;
+PImage bee;
 String [] text={"Spring","Summer","Fall","Winter"};
 
 PFont font;
@@ -84,6 +84,7 @@ void setup(){
   bg2= loadImage("bg.jpg");
   soccerball=loadImage("soccerball.png");
   football=loadImage("football.png");
+  bee = loadImage("bee.png");
   frameRate(5);    // lower flicker rate
   smooth();
 }
@@ -115,6 +116,12 @@ void draw(){
 }
 
 void mousePressed(){
+      if(mouseButton==LEFT){
+          imageIndex = int(random(0,4));
+          println("Image: " + imageIndex);
+          println("mouse button: Left");
+          
+      }else if(mouseButton ==RIGHT){
       r= (random(255));
       g= (random(255));
       b= (random(255));
@@ -123,12 +130,9 @@ void mousePressed(){
       println("g: "+ g);
       println("b: "+ b);
       println("mousepressed");
-      
-      imageIndex = int(random(0,4));
-      println("Image: " + imageIndex);
-      
-      
-            
+      println("mouse button: Right");
+      }
+           
 }
 
 
@@ -142,9 +146,9 @@ void keyPressed(){
       }else if (key == '4'){
         scene = 4;  //scene 4 for winter
       }else if (key == ENTER) {
-        scene = 5;
+        scene = 5; //scene 5 for endShow
       }else if (key == 32) {
-        scene = 6;
+        scene = 6; //scene 6 for preShow2()
       }
       
 }
@@ -301,7 +305,7 @@ void preShow3(){
   
       textSize(32);
       fill(255);
-      text("Press NUMBER KEY to watch your favorite season",width/2,height/2+150);
+      text("Press NUMBER KEY into your favorite season",width/2,height/2+150);
       
 }
 
@@ -406,6 +410,11 @@ void spring(){
          textDisplay(255,54,0);
          println("X: "+ mouseX,"Y: "+mouseY);
          textHint();
+         textHint2();
+         image(bee,mouseX-20,mouseY+10,80,80);
+         if(mousePressed && (mouseButton==RIGHT)){
+         pattern(1.5,255,127,75); 
+         }
 }
 
 void summer(){
@@ -421,10 +430,13 @@ void summer(){
          imageMode(CORNER);
          image(imgSummer[imageIndex],100,100,1000,1000);
          iconSpin(1,1000,170,80,80);
-
          textDisplay(255,54,1);
          textHint();
-         
+         textHint2();
+         if(mousePressed && (mouseButton==RIGHT)){
+         pattern(1.5,255,127,75); 
+         }
+         //football 
           x = x+ xspeed;
           y= y+yspeed;
          
@@ -457,8 +469,11 @@ void fall(){
          image(imgFall[imageIndex],100,100,1000,1000);
           iconSpin(2,350,150,80,80);
           textDisplay(255,54,2);
-          pattern(1.5,255,200,75); 
           textHint();
+          textHint2();
+          if(mousePressed && (mouseButton==RIGHT)){
+         pattern(1.5,255,127,75); 
+         }
 }
 
 void winter(){
@@ -475,6 +490,10 @@ void winter(){
           iconSpin(3,350,150,80,80);
           textDisplay(255,54,3);   
           textHint();
+          textHint2();
+          if(mousePressed && (mouseButton==RIGHT)){
+         pattern(1.5,255,127,75); 
+         }
 }
 
 /////////////////////////////Define difference kinds of functions////////////////////////
@@ -530,6 +549,20 @@ void textHint(){
      text("<3>-Fall",580,1150);
      text("<4>-Winter",660,1150);
      text("<Enter>-End",770,1150);
+
+}
+
+void textHint2(){
+     textAlign(LEFT);
+     textSize(28);
+     fill(0);
+     text("LEFT Click:  Next Picture",110,1030);
+     fill(255);
+     text("LEFT Click:  Next Picture",113,1030);
+     fill(0);
+     text("RIGHT Click and HOLD:  Filter",110,1080);
+     fill(255);
+     text("RIGHT Click and HOLD:  Filter",113,1080);
 
 }
 
