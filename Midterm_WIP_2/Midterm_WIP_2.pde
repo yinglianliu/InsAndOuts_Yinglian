@@ -3,6 +3,7 @@
 1- modify the flow(add preShow3 and preShow4 to increase interaction);
 2- modify preShow1 and preShow2;
 3- add sound files;
+4- Using arrays to store 4 images for each season, click mouse to randomly select
 
 */
 
@@ -17,16 +18,26 @@
  
 import processing.sound.*;
 
-SoundFile spring;
+SoundFile bgmSpring;
 SoundFile win;
 SoundFile lose;
+
+float x=200;
+float y=1000;
+float xspeed=40;
+float yspeed=60;
 
 String currentSeason="Spring";
 
 int scene;
+int imageIndex=0;
 
 int state=0;
-PImage [] image=new PImage[4];
+PImage [] imgSpring=new PImage[4];
+PImage [] imgSummer=new PImage[4];
+PImage [] imgFall=new PImage[4];
+PImage [] imgWinter=new PImage[4];
+
 PImage [] icon=new PImage[4];
 PImage bg1;
 PImage bg2;
@@ -54,16 +65,19 @@ float b= 255;
 void setup(){
     size(1200,1200);
     background(80,204,240);
-    spring = new SoundFile(this,"spring.wav");
-    spring.amp(0.6);
-    spring.loop();
+    bgmSpring = new SoundFile(this,"spring.wav");
+    bgmSpring.amp(0.8);
+    bgmSpring.loop();
     
   //using Anton font from google fonts
   font = createFont("Anton-Regular.ttf",24);
   
   //loading images with numbered files
-  for(int i=0; i<image.length;i++){
-    image[i] = loadImage("image"+ i +".jpg");
+  for(int i=0; i<4;i++){
+    imgSpring[i] = loadImage("spring"+ i +".jpg");
+    imgSummer[i] = loadImage("summer"+ i +".jpg");
+    imgFall[i] = loadImage("fall"+ i +".jpg");
+    imgWinter[i] = loadImage("winter"+ i +".jpg");
     icon[i] = loadImage("icon"+ i + ".png");
   }
   bg1= loadImage("bg1.jpg");
@@ -97,7 +111,6 @@ void draw(){
           } else if(mouseX>450 && mouseX < 1000 && mouseY >= height/3+100 && mouseY < height/3+250 && scene==6)  {
           preShow4();
           } 
-      
 
 }
 
@@ -110,6 +123,11 @@ void mousePressed(){
       println("g: "+ g);
       println("b: "+ b);
       println("mousepressed");
+      
+      imageIndex = int(random(0,4));
+      println("Image: " + imageIndex);
+      
+      
             
 }
 
@@ -219,7 +237,7 @@ void preShow2(){
 
 void preShow3(){
       win = new SoundFile(this,"win.wav");
-      win.amp(0.5);
+      win.amp(0.4);
       win.play();
       background(80,204,240);
       title();
@@ -290,7 +308,7 @@ void preShow3(){
 void preShow4(){
 
       lose = new SoundFile(this,"lose.wav");
-      lose.amp(0.5);
+      lose.amp(0.4);
       lose.play();
       background(80,204,240);
       title();
@@ -351,23 +369,21 @@ void endShow(){
 
      background(bg2);
      textAlign(CENTER);
-     textSize(52);
-     fill(255);
-     text("Thank you for your participation!",width/2, height/2-100);
-     
      rectMode(CENTER);
+     
      fill(#97EA24);
-     rect(width/2,height/2-40,600,80);
+     rect(width/2,height/2-150,720,90);
      fill(255);
-     textSize(32);
-     text("Hope you have a wondful tour in Central Park!",width/2, height/2-20);
+     noStroke();
+     textSize(38);
+     text("Hope You Have a Wondful Tour in Central Park!",width/2, height/2-135);
 
-     //fill(#97EA24);
-     //rect(width/2,1100,400,50);
+     textSize(28);
+     fill(#97EA24);
+     text("Press the NUMBER KEY to watch again.", width/2+3, 1108);
      fill(255);
-     textSize(24);
-     text("Press the NUMBER KEY to watch again.", width/2+50, 1108);
-     rect(width/2+50,1140,550,50); 
+     text("Press the NUMBER KEY to watch again.", width/2, 1108);
+     rect(width/2+5,1140,600,45); 
      textHint();
      
 }
@@ -383,8 +399,9 @@ void spring(){
           rectMode(CENTER);
           fill(255);
           rect(width/2,height/2,width-50,width-50);
-        
-         imageDisplay(0,100,100,1000,1000);
+          
+         imageMode(CORNER);
+         image(imgSpring[imageIndex],100,100,1000,1000);
          iconSpin(0,350,150,70,70);
          textDisplay(255,54,0);
          println("X: "+ mouseX,"Y: "+mouseY);
@@ -401,15 +418,29 @@ void summer(){
           fill(255);
           rect(width/2,height/2,width-50,width-50);
 
-          
-         imageDisplay(1,100,100,1000,1000);
+         imageMode(CORNER);
+         image(imgSummer[imageIndex],100,100,1000,1000);
          iconSpin(1,1000,170,80,80);
-         //image(soccerball,int(random(width)),int(random(1000,1050)),40,40);
-         
-         playBall(soccerball,130,1000,40,40);
-         
+
          textDisplay(255,54,1);
          textHint();
+         
+          x = x+ xspeed;
+          y= y+yspeed;
+         
+          if ((x > width-100) || (x < 100)) {
+
+            xspeed = xspeed * -1;
+            
+            }
+            
+            if ((y > height/2+100) || (y < height/2-100)) {
+            
+            yspeed = yspeed * -1;
+            
+            }
+            image(football,x,y,30,30);
+      
          
 }
 
@@ -422,11 +453,11 @@ void fall(){
           fill(255);
           rect(width/2,height/2,width-50,width-50);
 
-          
-          imageDisplay(2,100,100,1000,1000);
+         imageMode(CORNER);
+         image(imgFall[imageIndex],100,100,1000,1000);
           iconSpin(2,350,150,80,80);
           textDisplay(255,54,2);
-          pattern(1.5,255,255,127); 
+          pattern(1.5,255,200,75); 
           textHint();
 }
 
@@ -439,7 +470,8 @@ void winter(){
           fill(255);
           rect(width/2,height/2,width-50,width-50);
 
-          imageDisplay(3,100,100,1000,1000);
+         imageMode(CORNER);
+         image(imgWinter[imageIndex],100,100,1000,1000);
           iconSpin(3,350,150,80,80);
           textDisplay(255,54,3);   
           textHint();
@@ -458,14 +490,10 @@ void title(){
               text("Central Park",width/2+8,100);
               savedTime=currentTime;
           }
-          fill(255);
+          fill(45);
           text("Central Park",width/2,100);
 }
 
-void imageDisplay(int i,float x, float y, int imageWidth,int imageHeight){
-         imageMode(CORNER);
-         image(image[i],x,y,imageWidth,imageHeight);   
-}
 
 void textDisplay(float c, float s, int t){
          textAlign(LEFT);
@@ -497,11 +525,11 @@ void textHint(){
      textAlign(LEFT);
      textSize(24);
      fill(0);
-     text("<1>-Spring",400,1150);
-     text("<2>-Summer",510,1150);
-     text("<3>-Fall",630,1150);
-     text("<4>-Winter",710,1150);
-     text("<Enter>-End",810,1150);
+     text("<1>-Spring",340,1150);
+     text("<2>-Summer",450,1150);
+     text("<3>-Fall",580,1150);
+     text("<4>-Winter",660,1150);
+     text("<Enter>-End",770,1150);
 
 }
 
@@ -517,25 +545,4 @@ void pattern(float sw, float c, float st, float ft){
               rect(i,j,100,100); 
            }
       }
-}
-
-void playBall(PImage t,float x, float y,int imageWidth,int imageHeight){
-
-          imageMode(CENTER);
-          pushMatrix();
-          translate(x,y);
-          rotate(speed(2,15));
-          tint(255);
-          image(t,0,0,imageWidth,imageHeight);
-          popMatrix();
-          
-        
-}
-  
-
-//use for control the rotate speed
-float speed(float speed, float angle){
-    float ss= angle*speed*a;
-    a++;
-    return ss;  
 }
