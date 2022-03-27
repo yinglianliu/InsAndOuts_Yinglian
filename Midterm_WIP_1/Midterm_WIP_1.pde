@@ -12,6 +12,8 @@ int h=50;
 PImage [] image=new PImage[4];
 PImage [] icon=new PImage[4];
 PImage bg;
+PImage soccerball;
+PImage football;
 String [] text={"Spring","Summer","Fall","Winter"};
 
 PFont font;
@@ -44,7 +46,9 @@ void setup(){
     image[i] = loadImage("image"+ i +".jpg");
     icon[i] = loadImage("icon"+ i + ".png");
   }
-   bg =loadImage("bg.jpg");
+ bg= loadImage("bg.jpg");
+ soccerball=loadImage("soccerball.png");
+ football=loadImage("football.png");
   frameRate(5);    // lower flicker rate
   smooth();
 }
@@ -229,6 +233,10 @@ void summer(){
           title();
          imageDisplay(1,100,100,1000,1000);
          iconSpin(1,1000,170,80,80);
+         //image(soccerball,int(random(width)),int(random(1000,1050)),40,40);
+         
+         playBall(soccerball,130,1000,40,40);
+         
          textDisplay(255,54,1);
          textHint();
          
@@ -337,4 +345,25 @@ void pattern(float sw, float c, float st, float ft){
               rect(i,j,100,100); 
            }
       }
+}
+
+void playBall(PImage t,float x, float y,int imageWidth,int imageHeight){
+
+          imageMode(CENTER);
+          pushMatrix();
+          translate(x,y);
+          rotate(speed(2,15));
+          tint(255);
+          image(t,0,0,imageWidth,imageHeight);
+          popMatrix();
+          
+        
+}
+  
+
+//use for control the rotate speed
+float speed(float speed, float angle){
+    float ss= angle*speed*a;
+    a++;
+    return ss;  
 }
