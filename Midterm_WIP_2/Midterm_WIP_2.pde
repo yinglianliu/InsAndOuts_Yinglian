@@ -4,7 +4,10 @@
 2- modify preShow1 and preShow2;
 3- add sound files;
 4- Using arrays to store 4 images for each season, click mouse to randomly select
-5- Left-click to switch pictures, right-click to display and switch filters
+5- Left-click to switch pictures, 
+   right-click to display and switch filters which is pattern
+6- add a new pattern to simulate snowing
+
 */
 
 
@@ -65,28 +68,30 @@ float b= 255;
 void setup(){
     size(1200,1200);
     background(80,204,240);
+    /////////////////BGM//////////////////////
     bgmSpring = new SoundFile(this,"spring.wav");
     bgmSpring.amp(0.8);
     bgmSpring.loop();
     
-  //using Anton font from google fonts
-  font = createFont("Anton-Regular.ttf",24);
+    ////////////////Font/////////////////////
+    font = createFont("Anton-Regular.ttf",24);
   
-  //loading images with numbered files
-  for(int i=0; i<4;i++){
-    imgSpring[i] = loadImage("spring"+ i +".jpg");
-    imgSummer[i] = loadImage("summer"+ i +".jpg");
-    imgFall[i] = loadImage("fall"+ i +".jpg");
-    imgWinter[i] = loadImage("winter"+ i +".jpg");
-    icon[i] = loadImage("icon"+ i + ".png");
-  }
-  bg1= loadImage("bg1.jpg");
-  bg2= loadImage("bg.jpg");
-  soccerball=loadImage("soccerball.png");
-  football=loadImage("football.png");
-  bee = loadImage("bee.png");
-  frameRate(5);    // lower flicker rate
-  smooth();
+    ////////////////Arraies for images///////
+    for(int i=0; i<4;i++){
+      imgSpring[i] = loadImage("spring"+ i +".jpg");
+      imgSummer[i] = loadImage("summer"+ i +".jpg");
+      imgFall[i] = loadImage("fall"+ i +".jpg");
+      imgWinter[i] = loadImage("winter"+ i +".jpg");
+      icon[i] = loadImage("icon"+ i + ".png");
+    }
+    bg1= loadImage("bg1.jpg");
+    bg2= loadImage("bg.jpg");
+    soccerball=loadImage("soccerball.png");
+    football=loadImage("football.png");
+    bee = loadImage("bee.png");
+    
+    frameRate(5);    // lower flicker rate
+    smooth();
 }
 
 void draw(){
@@ -106,21 +111,28 @@ void draw(){
       }else if (scene==6) {
         preShow2();
 
-    }           
-    if(mouseX >=250 && mouseX<400 && mouseY >= height/3+100 && mouseY < height/3+250 && scene==6 ){
+    }  
+    ////////Determine if the user guessed correctly//////////////////
+    if(mouseX >=250 && mouseX<400 
+        && mouseY >= height/3+100 && mouseY < height/3+250 
+        && scene==6 ){
           preShow3();
-          } else if(mouseX>450 && mouseX < 1000 && mouseY >= height/3+100 && mouseY < height/3+250 && scene==6)  {
+          } else if(mouseX>450 && mouseX < 1000 
+          && mouseY >= height/3+100 && mouseY < height/3+250 
+          && scene==6)  {
           preShow4();
           } 
 
 }
 
 void mousePressed(){
+      ////////left click to switch the images randomly//////
       if(mouseButton==LEFT){
           imageIndex = int(random(0,4));
           println("Image: " + imageIndex);
           println("mouse button: Left");
           
+      ////////right click to switch the color randomly//////    
       }else if(mouseButton ==RIGHT){
       r= (random(255));
       g= (random(255));
@@ -173,9 +185,11 @@ void preShow1(){
 }
 
 void preShow2(){
-      //assign the vaule to currentSeason to change the display in preshow,then match the
-      //current season 
-      title();
+       title();
+       
+    /*assign the vaule to currentSeason to change the display in preshow,
+      then match the current season.
+      */
     if (currentSeason == "Spring"){
       image(icon[0],random(width),random(height),40,40);
     } else if (currentSeason == "Summer"){
@@ -408,12 +422,11 @@ void spring(){
          image(imgSpring[imageIndex],100,100,1000,1000);
          iconSpin(0,350,150,70,70);
          textDisplay(255,54,0);
-         println("X: "+ mouseX,"Y: "+mouseY);
          textHint();
          textHint2();
-         image(bee,mouseX-20,mouseY+10,80,80);
+         image(bee,mouseX-20,mouseY+20,80,80);
          if(mousePressed && (mouseButton==RIGHT)){
-         pattern(1.5,255,127,75); 
+           pattern(1.5,255,127,75); 
          }
 }
 
@@ -427,33 +440,32 @@ void summer(){
           fill(255);
           rect(width/2,height/2,width-50,width-50);
 
-         imageMode(CORNER);
-         image(imgSummer[imageIndex],100,100,1000,1000);
-         iconSpin(1,1000,170,80,80);
-         textDisplay(255,54,1);
-         textHint();
-         textHint2();
-         if(mousePressed && (mouseButton==RIGHT)){
-         pattern(1.5,255,127,75); 
-         }
-         //football 
-          x = x+ xspeed;
-          y= y+yspeed;
-         
-          if ((x > width-100) || (x < 100)) {
-
-            xspeed = xspeed * -1;
-            
-            }
-            
-            if ((y > height/2+100) || (y < height/2-100)) {
-            
-            yspeed = yspeed * -1;
-            
-            }
-            image(football,x,y,30,30);
-      
-         
+           imageMode(CORNER);
+           image(imgSummer[imageIndex],100,100,1000,1000);
+           iconSpin(1,1000,170,80,80);
+           textDisplay(255,54,1);
+           textHint();
+           textHint2();
+           if(mousePressed && (mouseButton==RIGHT)){
+           pattern(1.5,255,127,75); 
+           }
+           
+           //football (reference: https://processing.org/examples/bounce.html)
+            x = x+ xspeed;
+            y= y+yspeed;
+           
+            if ((x > width-100) || (x < 100)) {
+  
+              xspeed = xspeed * -1;
+              
+              }
+              
+              if ((y > height/2+100) || (y < height/2-100)) {
+              
+              yspeed = yspeed * -1;
+              
+              }
+              image(football,x,y,30,30);
 }
 
 void fall(){
@@ -465,14 +477,14 @@ void fall(){
           fill(255);
           rect(width/2,height/2,width-50,width-50);
 
-         imageMode(CORNER);
-         image(imgFall[imageIndex],100,100,1000,1000);
+          imageMode(CORNER);
+          image(imgFall[imageIndex],100,100,1000,1000);
           iconSpin(2,350,150,80,80);
           textDisplay(255,54,2);
           textHint();
           textHint2();
           if(mousePressed && (mouseButton==RIGHT)){
-         pattern(1.5,255,127,75); 
+            pattern(1.5,255,127,75); 
          }
 }
 
@@ -485,14 +497,15 @@ void winter(){
           fill(255);
           rect(width/2,height/2,width-50,width-50);
 
-         imageMode(CORNER);
-         image(imgWinter[imageIndex],100,100,1000,1000);
+          imageMode(CORNER);
+          image(imgWinter[imageIndex],100,100,1000,1000);
           iconSpin(3,350,150,80,80);
           textDisplay(255,54,3);   
           textHint();
           textHint2();
           if(mousePressed && (mouseButton==RIGHT)){
-         pattern(1.5,255,127,75); 
+            //pattern(1.5,255,127,75); 
+            pattern2(20,255,255); //Looks like snowing
          }
 }
 
@@ -576,6 +589,18 @@ void pattern(float sw, float c, float st, float ft){
               //noStroke();
               fill(r,g,b,random(ft));
               rect(i,j,100,100); 
+           }
+      }
+}
+
+
+void pattern2(float sw, float c, float st){  
+      for(int i=100; i<=1100; i+=80){
+          for(int j=100; j<=1100; j+=80){ 
+              rectMode(CENTER);
+              strokeWeight(random(sw));
+              stroke(c,random(st));
+              point(i,j); 
            }
       }
 }
