@@ -22,8 +22,8 @@
 import processing.sound.*;
 
 SoundFile bgmSpring;
-SoundFile win;
-SoundFile lose;
+//SoundFile win;
+//SoundFile lose;
 
 float x=200;
 float y=1000;
@@ -70,7 +70,7 @@ void setup(){
     background(80,204,240);
     /////////////////BGM//////////////////////
     bgmSpring = new SoundFile(this,"spring.wav");
-    bgmSpring.amp(0.8);
+    bgmSpring.amp(0.2);
     bgmSpring.loop();
     
     ////////////////Font/////////////////////
@@ -175,12 +175,15 @@ void preShow1(){
       textSize(52);
       fill(255);
       text("Welcome to Central Park Virtual Tour!",width/2,height/2-100);
+      textSize(24);
+      text("I took these photos between 2018 and 2019.",width/2,height/2-50);
+      text("I hope you enjoy it.",width/2-117,height/2-20);
             
       textSize(32);
-      fill(255,255,127);
-      text("Press SPACE to start",width/2+3,height/2+100);
-      fill(0);
-      text("Press SPACE to start",width/2,height/2+100);
+      //fill(255,255,127);
+      //text("Press SPACEBAR to start",width/2+3,height/4*3);
+      fill(255);
+      text("press SPACEBAR to start",width/2,height/4*3);
       
 }
 
@@ -249,14 +252,14 @@ void preShow2(){
       text("which SEASON will you think of?",width/2,height/3+80);
       fill(255);
       textSize(32);
-      text("Move the CURSOR to the box",width/2,height/2+150);
+      text("move the CURSOR to the box",width/2,height/2+250);
       
 }
 
 void preShow3(){
-      win = new SoundFile(this,"win.wav");
-      win.amp(0.4);
-      win.play();
+      //win = new SoundFile(this,"win.wav");
+      //win.amp(0.4);
+      //win.play();
       background(80,204,240);
       title();
      
@@ -325,9 +328,9 @@ void preShow3(){
 
 void preShow4(){
 
-      lose = new SoundFile(this,"lose.wav");
-      lose.amp(0.4);
-      lose.play();
+//      lose = new SoundFile(this,"lose.wav");
+//      lose.amp(0.4);
+//      lose.play();
       background(80,204,240);
       title();
       noStroke();
