@@ -1,8 +1,10 @@
 /////////////////WIP_Final//////////////
 /*
-1- add play and pause button for the BGM.(no loop)
-2- using class to simulate snowing
-3- modify some display
+1- add play and pause button for the BGM.
+2- using class to simulate snowing instead of using loop for winter
+3- using class to simulate shining for fall 
+4- modify some display
+5- add introduction to preShow1()
 */
 
 /////////////////WIP_2//////////////
@@ -41,6 +43,7 @@ int imageIndex=0;
 
 int state=0;
 Snow[] snow = new Snow[300];
+Circle[] circles = new Circle[200];
 
 PImage [] imgSpring=new PImage[4];
 PImage [] imgSummer=new PImage[4];
@@ -77,7 +80,7 @@ void setup(){
     /////////////////BGM//////////////////////
     bgmSpring = new SoundFile(this,"spring.wav");
     bgmSpring.amp(0.2);
-    //bgmSpring.loop();
+    bgmSpring.loop();
     
     ////////////////Font/////////////////////
     font1 = createFont("Anton-Regular.ttf",24);
@@ -100,11 +103,16 @@ void setup(){
     frameRate(5);    // lower flicker rate
     smooth();
     
+    //initialize snow objects
       for (int i =0; i<snow.length; i++){
         snow[i] = new Snow(int (random(100,1100)), int(random(100,1100)));
 
   }
-  
+  //initialize circles objects
+      for (int i =0; i<circles.length; i++){
+        circles[i] = new Circle(int (random(125,1050)), int(random(125,1050)),
+                      int(random(10,75)),int(random(200)));
+  } 
 }
 
 void draw(){
@@ -192,7 +200,7 @@ void preShow1(){
       textFont(font1);
       textSize(52);
       fill(255);
-      text("Welcome to Central Park Virtual Tour!",width/2,height/2-100);
+      text("Welcome to Central Park Virtual Tour!",width/2,height/2-110);
       textSize(20);
       textFont(font2);
       textAlign(CORNER);
@@ -206,7 +214,7 @@ void preShow1(){
       textFont(font1);
       textAlign(CENTER);
       fill(255);
-      text("press SPACEBAR to start",width/2,height/4*3);
+      text("press SPACEBAR to start",width/2,height/2+300);
       musicPlayButton();
       
 }
@@ -521,7 +529,8 @@ void fall(){
           textHint();
           textHint2();
           if(mousePressed && (mouseButton==RIGHT)){
-            pattern(1.5,255,127,75); 
+            //pattern(1.5,255,127,75); 
+            circle();
          }
          musicPlayButton();
 }
@@ -639,11 +648,10 @@ void pattern(float sw, float c, float st, float ft){
       }
 }
 
-
+//snowing
 //void pattern2(float sw, float c, float st){  
 //      for(int i=100; i<=1100; i+=80){
 //          for(int j=100; j<=1100; j+=80){ 
-//              rectMode(CENTER);
 //              strokeWeight(random(sw));
 //              stroke(c,random(st));
 //              point(i,j); 
@@ -652,10 +660,16 @@ void pattern(float sw, float c, float st, float ft){
 //}
 
 void snowing(){
-
   for(int i =0; i<snow.length; i++){
     snow[i].display();
     snow[i].fall();
+  }
+}
+
+void circle(){
+  for(int i=0; i<circles.length; i++){
+    circles[i].display();
+
   }
 }
 

@@ -1,5 +1,5 @@
 class Snow{
-  float x,y;
+  int x,y;
   
   Snow(int tempX, int tempY){
     x = tempX;
@@ -19,11 +19,8 @@ class Snow{
     //x=random(100,1100);
     //y=random(100,1100);
     stroke(255,random(255));
-    strokeWeight(random(15));
+    strokeWeight(random(2,12));
     point(x,y);
   }
-  
-  
-
-
+ 
 }
