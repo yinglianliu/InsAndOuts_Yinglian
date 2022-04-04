@@ -11,7 +11,7 @@ class Circle{
   }
   
   void display(){
-
+    //strokeWeight(random(2));
     //stroke(#FBFFD1,random(transparency));
     fill(r,g,b,random(transparency));
     ellipse(x,y,diameter,diameter);

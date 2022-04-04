@@ -42,8 +42,8 @@ int scene;
 int imageIndex=0;
 
 int state=0;
-Snow[] snow = new Snow[300];
-Circle[] circles = new Circle[200];
+Snow[] snow = new Snow[350];
+Circle[] circles = new Circle[300];
 
 PImage [] imgSpring=new PImage[4];
 PImage [] imgSummer=new PImage[4];
@@ -67,7 +67,6 @@ int currentTime=0;
 int savedTime=0; 
 
 int textIndex=0;
-
 
 //initialize pattern color is white
 float r=255;
@@ -111,7 +110,7 @@ void setup(){
   //initialize circles objects
       for (int i =0; i<circles.length; i++){
         circles[i] = new Circle(int (random(125,1050)), int(random(125,1050)),
-                      int(random(10,75)),int(random(200)));
+                      int(random(10,75)),int(random(127)));
   } 
 }
 
@@ -155,6 +154,7 @@ void mousePressed(){
           
       ////////right click to switch the color randomly//////    
       }else if(mouseButton ==RIGHT){
+        
       r= (random(255));
       g= (random(255));
       b= (random(255));
@@ -193,6 +193,7 @@ void preShow1(){
       imageMode(CENTER);
       image(bg1, width/2,height/2,800,800);
       rectMode(CORNER);
+      noStroke();
       fill(0,100);
       rect(200,510,800,200);
       textAlign(CENTER);
@@ -204,11 +205,11 @@ void preShow1(){
       textSize(20);
       textFont(font2);
       textAlign(CORNER);
-      text("Central Park is one of my favorite place in New York City.",width/2-250,height/2-40);
-      text("When I went there for the first time,",width/2-250,height/2-10);
-      text("I had the idea of taking pictures of its four seasons.", width/2-250,height/2+20);
-      text("These pictures were took between 2018 and 2019.",width/2-250,height/2+50);
-      text("I hope you like it.",width/2-250,height/2+80);
+      text("Central Park is one of my favorite place in New York City.",width/2-290,height/2-40);
+      text("When I went there for the first time,",width/2-290,height/2-10);
+      text("I had an idea which was capturing the scenes of four seasons.", width/2-290,height/2+20);
+      text("These pictures were took between 2018 and 2019.",width/2-290,height/2+50);
+      text("I hope you like it.",width/2-290,height/2+80);
             
       textSize(32);
       textFont(font1);
@@ -351,7 +352,7 @@ void preShow3(){
       text("4",920,height/3+280);
       
       textAlign(CENTER);
-      textSize(36);
+      textSize(32);
       fill(0);
       text("YEAH, you get it!",width/2,height/3);
       textSize(42);
@@ -360,7 +361,7 @@ void preShow3(){
   
       textSize(32);
       fill(255);
-      text("Press NUMBER KEY into your favorite season",width/2,height/2+150);
+      text("press NUMBER KEY into your favorite season",width/2,height/2+150);
       
 }
 

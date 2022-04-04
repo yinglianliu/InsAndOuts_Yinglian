@@ -19,7 +19,7 @@ class Snow{
     //x=random(100,1100);
     //y=random(100,1100);
     stroke(255,random(255));
-    strokeWeight(random(2,12));
+    strokeWeight(random(2,13));
     point(x,y);
   }
  
