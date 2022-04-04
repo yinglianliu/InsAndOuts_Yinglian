@@ -1,3 +1,10 @@
+// Central Park Virtual Tour by Yinglian Liu
+/*
+1- Number Key 1 to 4 to select spring,summer,fall or winter
+2- Left click go to next picture randomly, 4 pictures for each season
+3- Right click and hold could appear virtual effect
+*/
+
 /////////////////WIP_Final//////////////
 /*
 1- add play and pause button for the BGM.
