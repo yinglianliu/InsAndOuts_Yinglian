@@ -20,6 +20,13 @@
     
 */
 
+//Fianl Project - WIP 1 - Yinglian////////
+/*
+-I'm going to use distance sensor to make a toy which is interactive.
+-In WIP1, just test out if I can use the data from the sensor to do something as make the shape change.
+-Map the value from sensor to difference scale.
+*/
+
 import processing.serial.*;
 import processing.sound.*;
 
@@ -42,8 +49,8 @@ int valDistance=0;
 int valueOfPhC=0;
 int valOfPot=0;
 int valOfPot2=0;
-int light;
-int light_2;
+int widthToPot;
+int widthToPot2;
 int potToWidth=0;
 int pot2ToWidth=0;
 int valueOfAmp; //sending this data to Arduino
@@ -86,13 +93,14 @@ void draw() {
   myPort.write(valueOfAmp);
   ////println(valueOfAmp);
   
-  //mapping the values from 2 pots
+  //mapping the values from 2 pots into the range of width
   potToWidth = int(map(valOfPot,0,255,0,width));
   pot2ToWidth = int(map(valOfPot2,0,255,0,width));
   
-  //remapping these value to make big changing
-  light = int(map(pot2ToWidth,0,width,0,255));
-  light_2 = int(map(pot2ToWidth,0,width,255,0));
+  //remapping these value to make big changing when using pot to 
+  //control the color and shape
+  widthToPot = int(map(pot2ToWidth,0,width,0,255));
+  widthToPot2 = int(map(pot2ToWidth,0,width,255,0));
   
   //welcomePage(); 
 
@@ -216,7 +224,7 @@ void yesMusic() {
   image(music2,width/5*2+40,height/5*3,200,200);
   image(music3,width/5*3+80,height/5*3,200,200);
   
-  text("Pick a image you like",width/2,height/6*5+50);
+  text("Pick an image you like",width/2,height/6*5+50);
   
 
 }
@@ -234,7 +242,7 @@ void noMusic() {
 void pattern2(){
   rectMode(CORNER);
   noStroke();
-  fill(light,light_2,int(255-255*amp),20);
+  fill(widthToPot,widthToPot2,int(255-255*amp),20);
   rect(0,0,width,height);
   
   noFill();
