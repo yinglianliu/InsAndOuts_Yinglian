@@ -8,6 +8,13 @@ How to play:
 
 */
 
+/////////Improvement（06/08/2022）//////////
+/*
+1 - Using for loop to control the songs stop instead of hard coding.
+2 - Adding more songs to test.
+3 - Adding class and use into dreampop music
+*/
+
 ////////Fianl Project_Final////////
 /*
 1 - remove the photocell
@@ -60,13 +67,14 @@ import processing.sound.*;
 //Amplitude rhythmicamp;
 
 int songIndex=0;
-SoundFile [] dreampop = new SoundFile[2];
-SoundFile [] lively = new SoundFile[2];
-SoundFile [] rhythmic = new SoundFile[2];
+int songNum = 4;
+SoundFile [] dreampop = new SoundFile[songNum];
+SoundFile [] lively = new SoundFile[songNum];
+SoundFile [] rhythmic = new SoundFile[songNum];
 
-Amplitude [] dreampopamp =new Amplitude[2];
-Amplitude [] livelyamp =new Amplitude[2];
-Amplitude [] rhythmicamp =new Amplitude[2];
+Amplitude [] dreampopamp =new Amplitude[songNum];
+Amplitude [] livelyamp =new Amplitude[songNum];
+Amplitude [] rhythmicamp =new Amplitude[songNum];
 
 
 float amp=0.0;
@@ -93,9 +101,13 @@ PImage music3;
 
 int page;
 
+//int r,g,b;
+
+Circle[] circles = new Circle[60];
 
 void setup() {
-  size(1000,1000);
+  //size(1000,1000);
+  size(1200,1200);
   
   printArray(Serial.list());
   String portName = Serial.list()[1];
@@ -119,7 +131,7 @@ void setup() {
   //livelyamp = new Amplitude(this);
   //livelyamp.input(lively);
   
-  for(int i=0; i<2;i++){
+  for(int i=0; i<songNum;i++){
   rhythmic[i] = new SoundFile(this,("rhythmic"+i+".aiff"));
   rhythmicamp[i] = new Amplitude(this);
   rhythmicamp[i].input(rhythmic[i]);
@@ -132,6 +144,12 @@ void setup() {
   livelyamp[i] = new Amplitude(this);
   livelyamp[i].input(lively[i]);
   }
+  
+  //initialize circles objects
+  for (int i =0; i<circles.length; i++){
+    circles[i] = new Circle(int(random(50,width-50)), int(random(height/2-20,height/2+20)),
+                     int(random(1,250)),int(random(5,75)));
+  } 
   
 }
 
@@ -165,6 +183,8 @@ void draw() {
   }else if (distance <50){
     welcomePage(); 
   }
+  
+  println("Amp: " + amp);
 }
 
 //Copy the Serial_Handshaking code
@@ -239,7 +259,7 @@ void mousePressed() {
          if((page ==1 || page ==2 || page ==3) && mouseX> width/10*8 && mouseX< width/10*8+170 
           && mouseY> height/10*9+25 && mouseY< height/10*9+75 ){
        
-         songIndex=int(random(0,2));
+         songIndex=int(random(0,songNum));
          println("songIndex: "+songIndex);
          
        }
@@ -257,29 +277,55 @@ void mousePressed() {
       && mouseY < height/5*3+200 && page ==4){
         clear();
        page =1; //Go dreampop Music page
+       
+       for (int i = 0; i < lively.length; i++) {
+         lively[i].stop();
+       }
+       for (int i = 0; i < rhythmic.length; i++) {
+         rhythmic[i].stop();
+       }
+       
        dreampop[songIndex].play();
-       lively[0].stop();
-       lively[1].stop();
-       rhythmic[0].stop();
-       rhythmic[1].stop();
+       //lively[0].stop();
+       //lively[1].stop();
+
+       //rhythmic[0].stop();
+       //rhythmic[1].stop();
   } else if (mouseX > width/5*2+40 && mouseX < width/5*2+240 && mouseY > height/5*3 
       && mouseY < height/5*3+200 && page ==4){
         clear();
       page = 2; //Go lively Music page
+      
+      for (int i = 0; i < dreampop.length; i++) {
+         dreampop[i].stop();
+       }
+       
+      for (int i = 0; i < rhythmic.length; i++) {
+         rhythmic[i].stop();
+       }
       lively[songIndex].play();
-      dreampop[0].stop();
-      dreampop[1].stop();
-      rhythmic[0].stop();
-      rhythmic[1].stop();
+      //dreampop[0].stop();
+      //dreampop[1].stop();
+      //rhythmic[0].stop();
+      //rhythmic[1].stop();
       } else if (mouseX > width/5*3+80 && mouseX < width/5*3+280 && mouseY > height/5*3 
       && mouseY < height/5*3+200 && page ==4){
         clear();
          page = 3; //Go rhythmic Music page
+         
+         for (int i = 0; i < dreampop.length; i++) {
+         dreampop[i].stop();
+         }
+         
+         for (int i = 0; i < lively.length; i++) {
+         lively[i].stop();
+         }
+         
          rhythmic[songIndex].play();
-        dreampop[0].stop();
-        dreampop[1].stop();
-        lively[0].stop();
-        lively[1].stop();
+        //dreampop[0].stop();
+        //dreampop[1].stop();
+        //lively[0].stop();
+        //lively[1].stop();
     }else if (mouseX> width/10*8-100 && mouseX< width/10*8+100 && mouseY >height/6*5 && mouseY <height/6*5+60){
       clear();
       page =4; //Click"Change my mind" from noMusic page to back to yesMusic page
@@ -288,77 +334,121 @@ void mousePressed() {
               && (page ==1 || page ==2 || page ==3) ){
       
         clear();
-        page = 1;
+        page = 1; //in music playing page, click on dreampop image to change other songs
         
-        if (songIndex==0){
+        //if (songIndex==0){
           
-        dreampop[songIndex+1].stop();
-        dreampop[songIndex].stop();
-        dreampop[songIndex].play();
-        lively[0].stop();
-        lively[1].stop();
-        rhythmic[0].stop();
-        rhythmic[1].stop();
-        } else if (songIndex==1){
+        //dreampop[songIndex+1].stop();
+        //dreampop[songIndex].stop();
+        //dreampop[songIndex].play();
+        //lively[0].stop();
+        //lively[1].stop();
+        //rhythmic[0].stop();
+        //rhythmic[1].stop();
+        //} else if (songIndex==1){
           
-        dreampop[songIndex].stop();
-        dreampop[songIndex-1].stop();
-        dreampop[songIndex].play();
-        lively[0].stop();
-        lively[1].stop();
-        rhythmic[0].stop();
-        rhythmic[1].stop();
+        //dreampop[songIndex].stop();
+        //dreampop[songIndex-1].stop();
+        //dreampop[songIndex].play();
+        //lively[0].stop();
+        //lively[1].stop();
+        //rhythmic[0].stop();
+        //rhythmic[1].stop();
+        //}
+        
+        //Using for loop to control the songs play and stop
+        for (int i=0; i<dreampop.length;i++){
+          dreampop[i].stop();
         }
+        
+        for (int i=0; i<lively.length;i++){
+          lively[i].stop();
+        }
+        
+        for (int i=0; i<rhythmic.length;i++){
+          rhythmic[i].stop();
+        }
+        
+        dreampop[songIndex].play();
         
     } else if (mouseX>width/10*8+60 && mouseX< width/10*8+110 && mouseY >height/10*9+25 && mouseY <height/10*9+75 
               && (page ==1 || page ==2 || page ==3)){
         clear();
-        page = 2;
+        page = 2; //in music playing page, click on lively image to change other songs
        
-        if (songIndex==0){
-          lively[songIndex+1].stop();
-          lively[songIndex].stop();
-          lively[songIndex].play();
-          dreampop[0].stop();
-          dreampop[1].stop();
-          rhythmic[0].stop();
-          rhythmic[1].stop();
-        } else if (songIndex==1){
-          lively[songIndex].stop();
-          lively[songIndex-1].stop();
-          lively[songIndex].play();
-          dreampop[0].stop();
-          dreampop[1].stop();
-          rhythmic[0].stop();
-          rhythmic[1].stop();
+        //if (songIndex==0){
+        //  lively[songIndex+1].stop();
+        //  lively[songIndex].stop();
+        //  lively[songIndex].play();
+        //  dreampop[0].stop();
+        //  dreampop[1].stop();
+        //  rhythmic[0].stop();
+        //  rhythmic[1].stop();
+        //} else if (songIndex==1){
+        //  lively[songIndex].stop();
+        //  lively[songIndex-1].stop();
+        //  lively[songIndex].play();
+        //  dreampop[0].stop();
+        //  dreampop[1].stop();
+        //  rhythmic[0].stop();
+        //  rhythmic[1].stop();
+        //}
+        
+        //Using for loop to control the songs play and stop
+        for (int i=0; i<dreampop.length;i++){
+          dreampop[i].stop();
         }
+        
+        for (int i=0; i<lively.length;i++){
+          lively[i].stop();
+        }
+        
+        for (int i=0; i<rhythmic.length;i++){
+          rhythmic[i].stop();
+        }
+        
+        lively[songIndex].play();
      
               
        }else if (mouseX>width/10*8+120 && mouseX< width/10*8+170 && mouseY >height/10*9+25 && mouseY <height/10*9+75 
               && (page ==1 || page ==2 || page ==3)){
          clear();
-        page = 3;
+        page = 3; //in music playing page, click on rhythmic image to change other songs
           
-        if (songIndex==0){
-           rhythmic[songIndex].stop();
-           rhythmic[songIndex+1].stop();
-            rhythmic[songIndex].play();
-            dreampop[0].stop();
-            dreampop[1].stop();
-            lively[0].stop();
-            lively[1].stop();
-        } else if (songIndex==1){
-          rhythmic[songIndex].stop();
-          rhythmic[songIndex-1].stop();
-          rhythmic[songIndex].play();
-          dreampop[0].stop();
-          dreampop[1].stop();
-          lively[0].stop();
-          lively[1].stop();
-        }
+       // if (songIndex==0){
+       //    rhythmic[songIndex].stop();
+       //    rhythmic[songIndex+1].stop();
+       //     rhythmic[songIndex].play();
+       //     dreampop[0].stop();
+       //     dreampop[1].stop();
+       //     lively[0].stop();
+       //     lively[1].stop();
+       // } else if (songIndex==1){
+       //   rhythmic[songIndex].stop();
+       //   rhythmic[songIndex-1].stop();
+       //   rhythmic[songIndex].play();
+       //   dreampop[0].stop();
+       //   dreampop[1].stop();
+       //   lively[0].stop();
+       //   lively[1].stop();
+       // }
       
-       }
-            
+        //Using for loop to control the songs play and stop
+        for (int i=0; i<dreampop.length;i++){
+          dreampop[i].stop();
+        }
+        
+        for (int i=0; i<lively.length;i++){
+          lively[i].stop();
+        }
+        
+        for (int i=0; i<rhythmic.length;i++){
+          rhythmic[i].stop();
+        }
+        
+        rhythmic[songIndex].play(); 
+        
+          }   
 }
 ////////////////////////////////Define functions/////////////////////////////////////////
 
@@ -429,6 +519,50 @@ void noMusic() {
   text("Change my mind", width/10*8,height/6*5);
 }
 
+//point, pattern for dream pop music
+void pattern_dreampop(){
+  pichint();
+  rectMode(CORNER);
+  noStroke();
+  fill(widthToPot,widthToPot2,int(255-255*amp),30);
+  rect(0,0,width,height);
+  
+  noFill();
+  //fill(widthToPot,widthToPot2,int(255-255*amp));
+  strokeWeight(random(2,15));
+  stroke(255);
+  //stroke(int(255-255*amp));
+  
+  
+  //lively.stop();
+  //rhythmic.stop();
+  //dreampop.play();
+
+  amp = dreampopamp[songIndex].analyze();
+  
+  potToWidth = int(map(valOfPot,0,255,0,width));
+  float deg = map(potToWidth, 0, width,30,1);
+  
+    if(amp>0.7){
+    circle();
+    
+  }else{
+   
+  }
+  
+   for(int i=0; i< 360; i+=deg) {
+     pushMatrix();
+     
+      translate(width/2, height/2);
+      float angle = radians(i);
+      rotate(angle);
+      point(width/2-amp*width/2,width/2-amp*width/2);
+      
+     popMatrix();
+   }
+
+ 
+}
 
 //line, pattern for lively music
 void pattern_lively(){
@@ -437,7 +571,7 @@ void pattern_lively(){
   noStroke();
   fill(widthToPot,widthToPot2,int(255-255*amp),20);
   rect(0,0,width,height);
-  
+
   noFill();
   strokeWeight(random(1,3));
   stroke(255,255,255);
@@ -449,7 +583,7 @@ void pattern_lively(){
   amp = livelyamp[songIndex].analyze();
   
   potToWidth = int(map(valOfPot,0,255,0,width));
-  float deg = map(potToWidth, 0, width,1,100);
+  float deg = map(potToWidth, 0, width,90,1);
   
   for(int i=0; i< 360; i+=deg) {
     pushMatrix();
@@ -462,38 +596,6 @@ void pattern_lively(){
   }
 }
 
-//point, pattern for dream pop music
-void pattern_dreampop(){
-  pichint();
-  rectMode(CORNER);
-  noStroke();
-  fill(widthToPot,widthToPot2,int(255-255*amp),20);
-  rect(0,0,width,height);
-  
-  noFill();
-  strokeWeight(random(2,15));
-  stroke(255,255,255);
-  
-  
-  //lively.stop();
-  //rhythmic.stop();
-  //dreampop.play();
-
-  amp = dreampopamp[songIndex].analyze();
-  
-  potToWidth = int(map(valOfPot,0,255,0,width));
-  float deg = map(potToWidth, 0, width,1,45);
-  
-  for(int i=0; i< 360; i+=deg) {
-    pushMatrix();
-      translate(width/2, height/2);
-      float angle = radians(i);
-      rotate(angle);
-      point(width/2-amp*width/2,width/2-amp*width/2);
-      
-    popMatrix();
-  }
-}
 
 //triangle, pattern for rhythmic mousic
 void pattern_rhy(){
@@ -515,7 +617,7 @@ void pattern_rhy(){
   potToWidth = int(map(valOfPot,0,255,0,width));
   int deg =int(map(potToWidth,0,width,90,1));
   
-  for(int i=0; i< 360; i+=deg) {
+  for(int i=1; i< 360; i+=deg) {
     pushMatrix();
       translate(width/2, height/2);
       float angle = radians(i);
@@ -523,5 +625,12 @@ void pattern_rhy(){
       triangle(width/2-amp*width/2,0,amp*width/2,amp*width/2,amp*width/2/tan(30),amp*width/4);
        
     popMatrix();
+  }
+}
+
+void circle(){
+  for(int i=0; i<circles.length; i++){
+    circles[i].display();
+
   }
 }
