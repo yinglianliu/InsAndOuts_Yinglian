@@ -14,7 +14,7 @@ class Circle{
     //strokeWeight(random(2));
     //stroke(#FBFFD1,random(transparency));
     noStroke();
-    fill(int(255),random(transparency*amp));
+    fill(int(255),int(random(transparency*amp)));
     ellipse(x,y,diameter*amp,diameter*amp);
   }
  
